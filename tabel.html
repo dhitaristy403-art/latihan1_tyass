@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jadwal Pelajaran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-bg: #fff0f6;
+    --pink-card: #ffffff;
+    --pink-mid: #ffc2dd;
+    --pink-strong: #ff6fa5;
+    --pink-deep: #b3336b;
+    --pink-line: #ffd6e8;
+    --text-dark: #5c2140;
+    --break-bg: #fff8e8;
+    --break-text: #a8722e;
+  }
+  html, body{
+    margin:0;
+    padding:0;
+    background: var(--pink-bg);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text-dark);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{ box-sizing: border-box; }
+
+  .page{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
+
+  .ribbon-wrap{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 34px;
+  }
+  .ribbon{
+    position: relative;
+    background: var(--pink-strong);
+    color: white;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 5vw, 34px);
+    padding: 16px 46px;
+    border-radius: 14px;
+    box-shadow: 0 6px 0 var(--pink-deep);
+    letter-spacing: 0.3px;
+  }
+  .ribbon::before, .ribbon::after{
+    content:"";
+    position:absolute;
+    top: 6px;
+    width: 26px;
+    height: calc(100% - 12px);
+    background: var(--pink-strong);
+    box-shadow: 0 6px 0 var(--pink-deep);
+  }
+  .ribbon::before{
+    left: -18px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+  }
+  .ribbon::after{
+    right: -18px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .bow{
+    position:absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 34px;
+    filter: drop-shadow(0 3px 2px rgba(179,51,107,0.35));
+  }
+
+  .subtitle{
+    text-align:center;
+    color: var(--pink-deep);
+    font-size: 14px;
+    margin-top: -18px;
+    margin-bottom: 26px;
+    font-weight: 600;
+  }
+
+  .seragam-row{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .seragam-card{
+    background: var(--pink-card);
+    border: 2px dashed var(--pink-mid);
+    border-radius: 16px;
+    padding: 10px 8px;
+    text-align:center;
+  }
+  .seragam-card .hari{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color: var(--pink-deep);
+    font-size: 13px;
+    display:block;
+    margin-bottom: 4px;
+  }
+  .seragam-card .ket{
+    font-size: 11.5px;
+    color: var(--text-dark);
+    line-height:1.3;
+  }
+
+  .table-wrap{
+    background: var(--pink-card);
+    border-radius: 22px;
+    padding: 6px;
+    box-shadow: 0 10px 0 var(--pink-mid), 0 14px 30px rgba(179,51,107,0.15);
+    overflow-x: auto;
+    position: relative;
+  }
+  .table-wrap::before{
+    content:"🎀";
+    position:absolute;
+    top:-16px;
+    left: 22px;
+    font-size: 26px;
+    transform: rotate(-12deg);
+  }
+  .table-wrap::after{
+    content:"🎀";
+    position:absolute;
+    top:-16px;
+    right: 22px;
+    font-size: 26px;
+    transform: rotate(12deg);
+  }
+
+  table{
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 620px;
+  }
+  thead th{
+    background: var(--pink-strong);
+    color: white;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 8px;
+    text-align: center;
+  }
+  thead th:first-child{
+    border-top-left-radius: 16px;
+  }
+  thead th:last-child{
+    border-top-right-radius: 16px;
+  }
+  tbody td{
+    padding: 11px 10px;
+    text-align: center;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--pink-line);
+  }
+  tbody td:first-child{
+    font-weight: 700;
+    color: var(--pink-deep);
+    background: #fff5fa;
+    width: 56px;
+  }
+  tbody tr:nth-child(even) td:not(:first-child){
+    background: #fff9fc;
+  }
+  tbody tr:last-child td{
+    border-bottom: none;
+  }
+  .break-row td{
+    background: var(--break-bg) !important;
+    color: var(--break-text);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.5px;
+    padding: 7px 10px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top: 26px;
+    font-size: 12px;
+    color: #c98cae;
+  }
+
+  @media (max-width: 640px){
+    .seragam-row{ grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="ribbon-wrap">
+    <span class="bow">🎀</span>
+    <div class="ribbon">Jadwal Pelajaran</div>
+  </div>
+  <p class="subtitle">Kelas X RPL ✨ SMK Negeri Takeran</p>
+
+  <div class="seragam-row">
+    <div class="seragam-card">
+      <span class="hari">Senin</span>
+      <span class="ket">Putih Abu-abu</span>
+    </div>
+    <div class="seragam-card">
+      <span class="hari">Selasa</span>
+      <span class="ket">Pramuka Lengkap</span>
+    </div>
+    <div class="seragam-card">
+      <span class="hari">Rabu</span>
+      <span class="ket">Olga → Batik + Abu-abu</span>
+    </div>
+    <div class="seragam-card">
+      <span class="hari">Kamis</span>
+      <span class="ket">PKL</span>
+    </div>
+    <div class="seragam-card">
+      <span class="hari">Jumat</span>
+      <span class="ket">Taruna</span>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Jam</th>
+          <th>Senin</th>
+          <th>Selasa</th>
+          <th>Rabu</th>
+          <th>Kamis</th>
+          <th>Jumat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Pramuka</td>
+          <td>PJOK</td>
+          <td>SBK</td>
+          <td>Informatika</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Pramuka</td>
+          <td>PJOK</td>
+          <td>SBK</td>
+          <td>Informatika</td>
+        </tr>
+        <tr class="break-row"><td colspan="6">☕ ISTIRAHAT</td></tr>
+        <tr>
+          <td>3</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Bahasa Indonesia</td>
+          <td>PKN</td>
+          <td>Matematika</td>
+          <td>Coding</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Bahasa Indonesia</td>
+          <td>PKN</td>
+          <td>Matematika</td>
+          <td>Coding</td>
+        </tr>
+        <tr class="break-row"><td colspan="6">☕ ISTIRAHAT</td></tr>
+        <tr>
+          <td>5</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Sejarah Indonesia</td>
+          <td>Bahasa Inggris</td>
+          <td>Bahasa Inggris</td>
+          <td>Pendidikan Agama &amp; Budi Pekerti</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Sejarah Indonesia</td>
+          <td>Bahasa Inggris</td>
+          <td>Bahasa Inggris</td>
+          <td>Pendidikan Agama &amp; Budi Pekerti</td>
+        </tr>
+        <tr class="break-row"><td colspan="6">☕ ISTIRAHAT</td></tr>
+        <tr>
+          <td>7</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Matematika</td>
+          <td>BK</td>
+          <td>Bahasa Indonesia</td>
+          <td>Project IPAS</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Dasar-dasar Program Keahlian</td>
+          <td>Matematika</td>
+          <td>Project IPAS</td>
+          <td>Bahasa Indonesia</td>
+          <td>Project IPAS</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>-</td>
+          <td>-</td>
+          <td>Project IPAS</td>
+          <td>Bahasa Jawa</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>Bahasa Jawa</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Dibuat dengan 💗 — sesuaikan lagi kalau ada jam yang meleset ya</footer>
+
+</div>
+</body>
+</html>
+tabel pelajaran.html
